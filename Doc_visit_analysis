@@ -1,1 +1,94 @@
+import numpy as np 
+import pandas as pd 
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
+for dirname, _, filenames in os.walk('/kaggle/input'):
+    for filename in filenames:
+        print(os.path.join(dirname, filename))
+df = pd.read_csv('doctorvisitDS.csv')
+df.head()
+df.info()
+df.duplicated().sum()
+df.nunique()
+df['Handcap'].value_counts()
+df['Age'].describe()
+df.drop(['PatientId', 'AppointmentID'], axis = 1, inplace = True)
+df.columns
+df.AppointmentDay.unique
+df['due-days'].describe()
+df[df['due-days'] < 0 ]
+df.drop(df[df['due-days'] < 0].index, inplace = True)
+df['due-days'].describe()
+df['Gender'] = df['Gender'].astype('category')
+df['Gender'].dtypes
+cols = ['Scholarship', 'Hipertension', 'Diabetes', 'Alcoholism', 'SMS_received']
+df[cols] = df[cols].astype('bool')
+df[cols].dtypes
+df.loc[df['No-show'] == 'Yes', 'No-show'] = 0
+df.loc[df['No-show'] == 'No', 'No-show'] = 1
+
+df['No-show'] = df['No-show'].astype(bool)
+df['No-show'].dtypes
+df[df['Handcap'] > 1]
+df.loc[df['Handcap'].isin([2, 3, 4]), 'Handcap'] = 1
+
+df['Handcap'] = df['Handcap'].astype('bool')
+df['Handcap'].unique()
+df[df['Age'] < 0]
+df.drop(df[df['Age'] < 0].index, inplace = True)
+df[df['Age'] < 0]
+df.head()
+df.info()
+sns.set_style("whitegrid")
+sns.countplot(x = 'Gender', data = df)
+plt.title("Gender Distribution")
+plt.show()
+sns.boxplot(x = 'Gender', y = 'Age', data = df)
+plt.title("Gender Distribution against Age")
+plt.show()
+df['No-show'].value_counts()
+sns.countplot(x = 'Gender', data = df, hue = 'No-show')
+plt.title('gender destribution with respect to no-show colunmn')
+plt.show()
+sns.countplot(x = 'SMS_received', data = df)
+plt.title("SMS received destribution")
+plt.show()
+df['SMS_received'].value_counts()
+sns.countplot(x = 'SMS_received', data = df, hue = 'No-show')
+plt.title('SMS destribution with respect to no-show colunmn')
+plt.show()
+sns.boxplot(x = 'No-show', y = 'due-days', data = df, showfliers = False)
+plt.title('no-show against due-days')
+plt.show()
+sns.boxplot(x = 'No-show', y = 'due-days', data = df, hue = 'Gender', showfliers = False)
+plt.title('no-show against due-days')
+plt.show()
+sns.boxplot(x = 'Scholarship', y = 'Age', data = df)
+plt.title('shcolarship V.S. age')
+plt.show()
+sns.barplot(x = 'Scholarship', y = 'No-show', hue = 'Gender', data = df)
+plt.title('shcolarship V.S. no show with respect to gender')
+plt.show()
+df['Age'].hist()
+plt.figure(figsize=(15,10))
+plt.subplot(2,2,1)
+sns.countplot(x = 'Hipertension', data = df, hue= 'No-show')
+plt.subplot(2,2,2)
+sns.countplot(x = 'Diabetes', data = df, hue= 'No-show')
+plt.subplot(2,2,3)
+sns.countplot(x = 'Alcoholism', data = df, hue= 'No-show')
+plt.subplot(2,2,4)
+sns.countplot(x = 'Handcap', data = df, hue= 'No-show')
+plt.show()
+plt.figure(figsize=(15,10))
+plt.subplot(2,2,1)
+sns.barplot(x = 'Hipertension', y = 'Age', data = df, hue= 'No-show')
+plt.subplot(2,2,2)
+sns.barplot(x = 'Diabetes', y = 'Age', data = df, hue= 'No-show')
+plt.subplot(2,2,3)
+sns.barplot(x = 'Alcoholism', y = 'Age', data = df, hue= 'No-show')
+plt.subplot(2,2,4)
+sns.barplot(x = 'Handcap', y = 'Age', data = df, hue= 'No-show')
+plt.show()
 
